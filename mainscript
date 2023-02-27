@@ -1,0 +1,94 @@
+if game.PlaceId == 5938036553 then
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "Dumb Hub | Frontlines", HidePremium = false, IntroText =  "Dumb Hub", SaveConfig = true, ConfigFolder = "FrontlinesDumb"})
+
+local Tab1 = Window:MakeTab({
+	Name = "Blatant",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Tab2 = Window:MakeTab({
+	Name = "Closet",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+--Speed
+
+Tab1:AddSlider({
+	Name = "Walkspeed",
+	Min = 1,
+	Max = 2.5,
+	Default = 1,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 0.1,
+	ValueName = "Speed",
+	Callback = function(Speed)
+		local speedMultiplier = Speed
+
+
+
+
+for _,v in pairs(getgc(true)) do
+
+   if typeof(v) == "table" then
+
+        if rawget(v, "movement") then v.movement = speedMultiplier end
+
+    end
+
+end
+
+	end    
+})
+--Speed End
+
+--ESP
+Tab2:AddButton({
+	Name = "Tracers",
+	Callback = function()
+        _G.ESP = {
+            Boxes = true,
+            Tracers = true,
+            Rainbow = true,
+            }
+            
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/mopsfl/roblox-scripts/main/.frontlines-esp.lua"))()
+  	end    
+})
+
+--ESP End
+
+--HitBoxExpander
+Tab2:AddButton({
+	Name = "Softaim",
+	Callback = function()
+        local HitboxSize = Vector3.new(10,10,10)
+
+
+
+        if getgenv().c then getgenv().c:Disconnect() end
+        
+        getgenv().c = game:GetService("RunService").RenderStepped:Connect(function()
+        
+            for _,v in pairs(workspace:GetChildren()) do
+        
+               if v:IsA("BasePart") and v.Color == Color3.new(1,0,0) then
+        
+                  v.Transparency = 1
+        
+                  v.Size = HitboxSize
+        
+               end
+        
+            end    
+        
+        end)
+        
+  	end    
+})
+
+
+end
+OrionLib:Init()
